@@ -1,0 +1,29 @@
+.searchBar {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.searchBar input {
+    width: 400px;
+    padding: 12px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Soft border */
+    border-radius: 30px;                       /* Pill shape is more modern */
+    background: rgba(255, 255, 255, 0.1);      /* Semi-transparent */
+    backdrop-filter: blur(10px);               /* Blurs what's behind it */
+    color: white;                              /* Text color */
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.searchBar input::placeholder {
+    color: rgba(255, 255, 255, 0.6);           /* Softer placeholder */
+}
+
+.searchBar input:focus {
+    width: 450px;                             /* Subtle expansion on focus */
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #ff00ff;                    /* Neon accent color */
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); /* Neon glow */
+}

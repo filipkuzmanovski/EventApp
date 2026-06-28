@@ -1,0 +1,26 @@
+# ---- Secrets (never commit these) ----
+.env
+**/.env
+*.local
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+
+# ---- Python (scraper) ----
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ---- Node (frontend) ----
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# ---- Java / Maven (backend) ----
+target/
+**/target/

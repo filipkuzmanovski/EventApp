@@ -1,0 +1,48 @@
+.postGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    gap: 2rem;
+    padding: 2rem;
+
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0.5rem 2rem 3rem;
+}
+
+.pageButton {
+    min-width: 42px;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid rgba(188, 19, 254, 0.4);
+    background: #1d0a36;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.pageButton:hover:not(:disabled) {
+    border-color: #bc13fe;
+    box-shadow: 0 0 10px rgba(188, 19, 254, 0.6);
+}
+
+.pageButton:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.activePage {
+    background: #bc13fe;
+    border-color: #bc13fe;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(188, 19, 254, 0.8);
+}
