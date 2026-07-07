@@ -2,43 +2,163 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 4rem;
-    background: #0f021f; 
-    min-height: 100px;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.8rem 4rem;
+    min-height: 110px;
+
+    background: rgba(15, 2, 31, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-magenta), var(--neon-cyan), transparent) 1;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .logoGroup {
     display: flex;
     flex-direction: column;
+    animation: fadeUp 0.7s ease both;
 }
 
 .mainTitle {
     margin: 0;
     color: white;
-    font-size: 1.8rem;
-    font-family: 'Inter', sans-serif;
+    font-size: 1.9rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
 .subtitle {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: -5px; 
+    letter-spacing: 4px;
+    color: var(--text-faint);
+    margin-bottom: 2px;
 }
-@keyframes pulse {
-    0% { transform: scale(1) rotate(-2deg); text-shadow: 0 0 7px #bc13fe; }
-    50% { transform: scale(1.05) rotate(-2deg); text-shadow: 0 0 15px #bc13fe, 0 0 25px #ff00ff; }
-    100% { transform: scale(1) rotate(-2deg); text-shadow: 0 0 7px #bc13fe; }
-}
+
+/* Animated gradient wordmark */
 .accent {
-    color: #fff;
-    text-shadow: 
-        0 0 7px #bc13fe,
-        0 0 10px #bc13fe,
-        0 0 21px #bc13fe;
     display: inline-block;
     transform: rotate(-2deg);
     margin: 0 5px;
-    animation: pulse 3s infinite ease-in-out;
+
+    background: linear-gradient(
+        90deg,
+        #bc13fe, #ff00ff, #00e5ff, #ff2e88, #bc13fe
+    );
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    filter: drop-shadow(0 0 10px rgba(188, 19, 254, 0.6));
+    animation: gradientFlow 6s linear infinite, pulse 3s infinite ease-in-out;
+}
+
+@keyframes gradientFlow {
+    to { background-position: 300% center; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1) rotate(-2deg); }
+    50%      { transform: scale(1.06) rotate(-2deg); }
+}
+
+/* Slowly spinning disco ball */
+.discoBall {
+    display: inline-block;
+    animation: spinBall 5s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.7));
+}
+
+@keyframes spinBall {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.searchGroup {
+    animation: fadeUp 0.7s ease 0.15s both;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.7rem;
+}
+
+/* Admin-only "add event" button */
+.addButton {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid rgba(0, 229, 255, 0.5);
+    border-radius: 24px;
+    background: rgba(0, 229, 255, 0.08);
+    color: var(--neon-cyan);
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: box-shadow 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.addButton:hover {
+    background: rgba(0, 229, 255, 0.16);
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.45);
+    transform: translateY(-2px);
+}
+
+/* ---- Events / Artists toggle ---- */
+.viewToggle {
+    display: flex;
+    gap: 0.4rem;
+    padding: 5px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-soft);
+    animation: fadeUp 0.7s ease 0.1s both;
+}
+
+.toggleButton {
+    padding: 0.55rem 1.4rem;
+    border: none;
+    border-radius: 24px;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.toggleButton:hover {
+    color: #fff;
+}
+
+.toggleActive {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+    color: #fff;
+    box-shadow: 0 0 14px rgba(188, 19, 254, 0.55);
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .navbarContainer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.2rem 1.5rem;
+        position: static;
+    }
+    .mainTitle {
+        font-size: 1.4rem;
+    }
 }

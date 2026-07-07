@@ -11,4 +11,5 @@ public class ScrapedDataDTO {
     private String bar;
     private String post_url;
     private String caption;
+    private String image_url;
 }

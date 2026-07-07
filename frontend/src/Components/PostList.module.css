@@ -2,12 +2,99 @@
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
     gap: 2rem;
-    padding: 2rem;
+    padding: 2.5rem 2rem 2rem;
 
     max-width: 1400px;
     margin: 0 auto;
+    width: 100%;
 }
 
+/* Staggered entrance for each card (delay set inline per index) */
+.cardWrapper {
+    display: flex;
+    animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cardWrapper > * {
+    flex: 1;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- Empty state ---- */
+.emptyState {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 2rem;
+    animation: fadeUp 0.6s ease both;
+}
+
+.emptyState h2 {
+    font-family: var(--font-display);
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 1.2rem 0 0.4rem;
+}
+
+.emptyState p {
+    color: var(--text-dim);
+    margin: 0;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    display: inline-block;
+    animation: bounceBall 2.2s ease-in-out infinite;
+    filter: drop-shadow(0 0 18px rgba(188, 19, 254, 0.7));
+}
+
+@keyframes bounceBall {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50%      { transform: translateY(-14px) rotate(8deg); }
+}
+
+/* ---- Selected club chip (from analytics) ---- */
+.selectedBarRow {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem 2rem 0;
+}
+
+.selectedBarChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 229, 255, 0.5);
+    background: rgba(0, 229, 255, 0.08);
+    color: var(--neon-cyan);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.selectedBarChip:hover {
+    background: rgba(0, 229, 255, 0.15);
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.4);
+}
+
+.chipX {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* ---- Pagination ---- */
 .pagination {
     display: flex;
     justify-content: center;
@@ -20,19 +107,21 @@
 .pageButton {
     min-width: 42px;
     padding: 0.5rem 0.9rem;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid rgba(188, 19, 254, 0.4);
-    background: #1d0a36;
-    color: rgba(255, 255, 255, 0.85);
-    font-family: 'Inter', sans-serif;
+    background: var(--bg-raised);
+    color: var(--text);
+    font-family: var(--font-body);
     font-size: 0.95rem;
     cursor: pointer;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease,
+                background 0.25s ease, transform 0.25s ease;
 }
 
 .pageButton:hover:not(:disabled) {
-    border-color: #bc13fe;
-    box-shadow: 0 0 10px rgba(188, 19, 254, 0.6);
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 12px rgba(188, 19, 254, 0.6);
+    transform: translateY(-2px);
 }
 
 .pageButton:disabled {
@@ -41,8 +130,8 @@
 }
 
 .activePage {
-    background: #bc13fe;
-    border-color: #bc13fe;
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+    border-color: transparent;
     color: #fff;
-    box-shadow: 0 0 12px rgba(188, 19, 254, 0.8);
+    box-shadow: 0 0 16px rgba(188, 19, 254, 0.8);
 }

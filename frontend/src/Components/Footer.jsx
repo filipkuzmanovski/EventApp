@@ -1,7 +1,19 @@
 import styles from "./Footer.module.css"
 
-export default function Footer(){
+export default function Footer({ adminToken, setAdminToken }){
     const year = new Date().getFullYear();
+
+    const handleAdminClick = () => {
+        if (adminToken) {
+            if (window.confirm("Одјава од админ режим?")) {
+                setAdminToken("");
+            }
+        } else {
+            const token = window.prompt("Админ токен:");
+            if (token) setAdminToken(token.trim());
+        }
+    };
+
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContent}>
@@ -22,7 +34,17 @@ export default function Footer(){
             </div>
 
             <div className={styles.bottomBar}>
-                <p>© {year} Шема. Сите права задржани.</p>
+                <p>
+                    © {year} Шема. Сите права задржани.
+                    <button
+                        className={`${styles.adminDot} ${adminToken ? styles.adminActive : ""}`}
+                        onClick={handleAdminClick}
+                        aria-label="Админ"
+                        title={adminToken ? "Админ режим активен" : ""}
+                    >
+                        ⚙
+                    </button>
+                </p>
             </div>
         </footer>
     )

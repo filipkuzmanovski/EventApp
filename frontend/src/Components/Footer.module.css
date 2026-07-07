@@ -1,8 +1,13 @@
 .footer {
-    background: #0f021f;
-    color: rgba(255, 255, 255, 0.7);
+    background: rgba(15, 2, 31, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-dim);
     margin-top: 3rem;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
+
+    border-top: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-magenta), var(--neon-cyan), transparent) 1;
 }
 
 .footerContent {
@@ -23,18 +28,29 @@
 .accent {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #fff;
-    text-shadow:
-        0 0 7px #bc13fe,
-        0 0 10px #bc13fe,
-        0 0 21px #bc13fe;
+    font-family: var(--font-display);
+    display: inline-block;
+
+    background: linear-gradient(90deg, #bc13fe, #ff00ff, #00e5ff, #ff2e88, #bc13fe);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    filter: drop-shadow(0 0 8px rgba(188, 19, 254, 0.5));
+    animation: gradientFlow 6s linear infinite;
+}
+
+@keyframes gradientFlow {
+    to { background-position: 300% center; }
 }
 
 .tagline {
     margin: 0.6rem 0 0;
     font-size: 0.9rem;
     line-height: 1.5;
-    color: rgba(255, 255, 255, 0.55);
+    color: var(--text-dim);
 }
 
 .column {
@@ -48,27 +64,49 @@
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-faint);
 }
 
 .column a {
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--text);
     text-decoration: none;
     font-size: 0.95rem;
-    transition: color 0.2s ease, text-shadow 0.2s ease;
+    width: fit-content;
+    transition: color 0.25s ease, text-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .column a:hover {
     color: #fff;
-    text-shadow: 0 0 8px #bc13fe;
+    text-shadow: 0 0 10px var(--neon-purple);
+    transform: translateX(4px);
 }
 
 .bottomBar {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--border-soft);
     text-align: center;
     padding: 1rem;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-faint);
+}
+
+/* Nearly-invisible admin unlock */
+.adminDot {
+    margin-left: 0.6rem;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.12);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.adminDot:hover {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.adminActive {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
 }
 
 @media (max-width: 768px) {

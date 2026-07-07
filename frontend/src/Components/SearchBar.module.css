@@ -1,29 +1,59 @@
 .searchBar {
+    position: relative;
     display: flex;
+    align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 0.5rem 0;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 18px;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.searchBar:focus-within .searchIcon {
+    opacity: 1;
 }
 
 .searchBar input {
-    width: 400px;
-    padding: 12px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Soft border */
-    border-radius: 30px;                       /* Pill shape is more modern */
-    background: rgba(255, 255, 255, 0.1);      /* Semi-transparent */
-    backdrop-filter: blur(10px);               /* Blurs what's behind it */
-    color: white;                              /* Text color */
+    width: 380px;
+    padding: 13px 20px 13px 46px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
     font-size: 1rem;
+    font-family: var(--font-body);
     outline: none;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .searchBar input::placeholder {
-    color: rgba(255, 255, 255, 0.6);           /* Softer placeholder */
+    color: var(--text-dim);
+}
+
+.searchBar input:hover {
+    border-color: rgba(188, 19, 254, 0.5);
 }
 
 .searchBar input:focus {
-    width: 450px;                             /* Subtle expansion on focus */
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #ff00ff;                    /* Neon accent color */
-    box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); /* Neon glow */
+    width: 440px;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--neon-magenta);
+    box-shadow:
+        0 0 18px rgba(255, 0, 255, 0.45),
+        inset 0 0 12px rgba(188, 19, 254, 0.12);
+}
+
+@media (max-width: 768px) {
+    .searchBar input,
+    .searchBar input:focus {
+        width: min(85vw, 380px);
+    }
 }

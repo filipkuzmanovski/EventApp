@@ -16,4 +16,7 @@ public class Bar {
     private Long id;
     @Column(unique = true)
     private String name;
+    // Venue address (from kadevecer JSON-LD) — used for the map in event details
+    @Column(length = 512)
+    private String address;
 }

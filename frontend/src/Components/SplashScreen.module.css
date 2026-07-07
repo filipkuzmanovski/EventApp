@@ -1,0 +1,76 @@
+.splash {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+
+    background: radial-gradient(ellipse at center, #1d0a36 0%, #0a0118 75%);
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+.fadeOut {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Disco ball drops in from above, then swings gently */
+.ball {
+    font-size: 4.5rem;
+    filter: drop-shadow(0 0 24px rgba(188, 19, 254, 0.8));
+    animation:
+        dropIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+        swing 2.2s ease-in-out 0.9s infinite;
+}
+
+@keyframes dropIn {
+    from { transform: translateY(-45vh) rotate(-30deg); opacity: 0; }
+    to   { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+
+@keyframes swing {
+    0%, 100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
+}
+
+/* Wordmark sweeps in with the same gradient as the nav */
+.wordmark {
+    margin: 0.8rem 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 8vw, 4.5rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+
+    background: linear-gradient(90deg, #bc13fe, #ff00ff, #00e5ff, #ff2e88, #bc13fe);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    filter: drop-shadow(0 0 18px rgba(188, 19, 254, 0.55));
+    animation:
+        fadeUp 0.7s ease 0.35s both,
+        gradientFlow 4s linear infinite;
+}
+
+.tag {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    animation: fadeUp 0.7s ease 0.6s both;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gradientFlow {
+    to { background-position: 300% center; }
+}

@@ -1,24 +1,35 @@
 .postCard {
-
-    background: rgba(30, 0, 60, 0.6);
-    border-radius: 16px;
+    position: relative;
+    background: var(--surface);
+    border-radius: 18px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
 
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    
+    border: 1px solid var(--border-soft);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s ease, border-color 0.4s ease;
+
     min-height: 480px;
 }
 
+/* Neon glow lift on hover */
 .postCard:hover {
-    transform: translateY(-5px); 
+    transform: translateY(-8px);
+    border-color: rgba(188, 19, 254, 0.65);
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.45),
+        0 0 24px rgba(188, 19, 254, 0.35),
+        0 0 60px rgba(255, 0, 255, 0.12);
 }
+
+/* ---- Image ---- */
 .imageContainer {
+    position: relative;
     width: 100%;
-    height: 200px; 
+    height: 200px;
     overflow: hidden;
 }
 
@@ -26,52 +37,144 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease;
 }
 
-.header{
-    padding: 1rem 1rem 0 1rem;
-    color: #ffffff;
-    font-size: 1.2rem;
+.postCard:hover .cardImage {
+    transform: scale(1.08);
+    filter: saturate(1.25);
+}
+
+/* Fade the image into the card body */
+.imageOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        transparent 40%,
+        rgba(20, 3, 41, 0.55) 80%,
+        rgba(20, 3, 41, 0.92) 100%
+    );
+    pointer-events: none;
+}
+
+/* Club-name chip floating over the image */
+.barChip {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+
+    font-family: var(--font-display);
+    font-size: 0.72rem;
     font-weight: 700;
-    text-align: center;
-    margin: 0;
+    letter-spacing: 0.5px;
+    color: #fff;
+
+    background: rgba(15, 2, 31, 0.7);
+    border: 1px solid rgba(188, 19, 254, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 0 12px rgba(188, 19, 254, 0.35);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.postCard:hover .barChip {
+    border-color: var(--neon-magenta);
+    box-shadow: 0 0 16px rgba(255, 0, 255, 0.55);
+}
+
+/* Event date chip — top right of the image */
+.dateChip {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: capitalize;
+
+    background: rgba(15, 2, 31, 0.75);
+    border: 1px solid rgba(0, 229, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+}
+
+/* Performers line under the image */
+.artistLine {
+    padding: 0.8rem 1.2rem 0;
+    color: var(--neon-cyan);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+}
+
+/* ---- Body ---- */
+.cardBody {
+    flex-grow: 1;
+    display: flex;
 }
 
 .cardBody p {
-    padding: 1rem;
-    color: rgba(255, 255, 255, 0.8); 
+    padding: 1.1rem 1.2rem;
+    color: var(--text);
     font-size: 0.9rem;
-    white-space: pre-wrap; 
-    line-height: 1.5;
+    white-space: pre-wrap;
+    line-height: 1.55;
+    margin: 0;
 
-    flex-grow: 1; 
     display: -webkit-box;
-    -webkit-line-clamp: 7; 
+    -webkit-line-clamp: 7;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.ctaText {
-    padding: 0 1rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.85rem;
+/* ---- Footer / CTA ---- */
+.cardFooter {
+    padding: 0 1.2rem 1.2rem;
     text-align: center;
+}
+
+.ctaText {
+    color: var(--text-faint);
+    font-size: 0.8rem;
     font-style: italic;
+    margin: 0 0 0.7rem;
 }
 
 .instagramLink {
-    display: block;
-    padding: 1rem;
-    text-align: center;
-    color: #ff00ff; 
+    display: inline-block;
+    padding: 0.65rem 1.6rem;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
+    font-size: 0.9rem;
+
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+    background-size: 150% auto;
+    box-shadow: 0 4px 14px rgba(188, 19, 254, 0.4);
+    transition: background-position 0.4s ease, box-shadow 0.3s ease,
+                transform 0.3s ease;
 }
 
 .instagramLink:hover {
-    color: #fff; 
-    text-decoration: underline;
+    background-position: right center;
+    box-shadow: 0 6px 22px rgba(255, 0, 255, 0.55);
+    transform: translateY(-2px);
+}
+
+.instagramLink:active {
+    transform: translateY(0);
 }
