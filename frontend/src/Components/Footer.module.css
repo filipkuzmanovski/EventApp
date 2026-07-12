@@ -12,17 +12,16 @@
 
 .footerContent {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 2rem;
+    justify-content: center;
+    align-items: center;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 2.5rem 4rem 1.5rem;
+    padding: 2.5rem 2rem 1.5rem;
 }
 
 .brand {
-    max-width: 320px;
+    max-width: 420px;
+    text-align: center;
 }
 
 .accent {
@@ -53,34 +52,6 @@
     color: var(--text-dim);
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-}
-
-.columnTitle {
-    margin: 0 0 0.3rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text-faint);
-}
-
-.column a {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.95rem;
-    width: fit-content;
-    transition: color 0.25s ease, text-shadow 0.25s ease, transform 0.25s ease;
-}
-
-.column a:hover {
-    color: #fff;
-    text-shadow: 0 0 10px var(--neon-purple);
-    transform: translateX(4px);
-}
-
 .bottomBar {
     border-top: 1px solid var(--border-soft);
     text-align: center;
@@ -89,25 +60,6 @@
     color: var(--text-faint);
 }
 
-/* Nearly-invisible admin unlock */
-.adminDot {
-    margin-left: 0.6rem;
-    border: none;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.12);
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-.adminDot:hover {
-    color: rgba(255, 255, 255, 0.55);
-}
-
-.adminActive {
-    color: var(--neon-cyan);
-    text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
-}
 
 @media (max-width: 768px) {
     .footerContent {

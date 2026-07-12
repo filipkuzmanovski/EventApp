@@ -6,6 +6,7 @@ import mk.ukim.finki.wp.eventapp.model.Post;
 import mk.ukim.finki.wp.eventapp.model.ScrapedDataDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostService {
     void processScrapedData(List<ScrapedDataDTO> scrapedDataDTO);
@@ -19,4 +20,8 @@ public interface PostService {
     List<Artist> getArtists();
 
     Post createManualEvent(KadevecerSyncDTO.EventDTO eventDTO);
+
+    Optional<Post> getEventById(Long id);
+
+    boolean deleteEvent(Long id);
 }

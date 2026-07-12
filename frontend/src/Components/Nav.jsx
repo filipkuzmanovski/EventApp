@@ -1,5 +1,8 @@
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import styles from "./Nav.module.css"
 import SearchBar from "./SearchBar"
+import ConfirmModal from "./ConfirmModal"
 
 const VIEWS = [
     { key: "events", label: "Настани" },
@@ -8,7 +11,8 @@ const VIEWS = [
 ]
 
 export default function Nav(props){
-    const { view, setView, isAdmin, onAddEvent, refreshKey } = props;
+    const { view, setView, isAdmin, user, onLogout, onAddEvent, refreshKey } = props;
+    const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
     return (
         <nav className={styles.navbarContainer}>
             <div className={styles.logoGroup}>
@@ -38,7 +42,29 @@ export default function Nav(props){
                         + Настан
                     </button>
                 )}
+                {user ? (
+                    <div className={styles.userBox}>
+                        <span className={styles.greeting}>
+                            Здраво, <strong>{user.username}</strong>{isAdmin && <span className={styles.adminBadge}>админ</span>}
+                        </span>
+                        <button className={styles.logoutButton} onClick={() => setLogoutConfirmOpen(true)}>Одјави се</button>
+                    </div>
+                ) : (
+                    <Link className={styles.loginButton} to="/login">Најави се</Link>
+                )}
             </div>
+
+            {logoutConfirmOpen && (
+                <ConfirmModal
+                    icon="👋"
+                    title="Одјава?"
+                    message={`Ќе се одјавиш од профилот ${user?.username}. Секогаш можеш повторно да се најавиш.`}
+                    confirmLabel="Одјави се"
+                    cancelLabel="Останувам"
+                    onConfirm={() => { setLogoutConfirmOpen(false); onLogout(); }}
+                    onCancel={() => setLogoutConfirmOpen(false)}
+                />
+            )}
         </nav>
     )
 }

@@ -44,11 +44,6 @@ function ArtistCard({ artist, index }) {
                         {s.label}
                     </a>
                 ))}
-                {socials.length === 0 && artist.kadevecerUrl && (
-                    <a className={styles.socialLink} href={artist.kadevecerUrl} target="_blank" rel="noreferrer">
-                        Профил
-                    </a>
-                )}
             </div>
         </div>
     )

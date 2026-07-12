@@ -19,4 +19,11 @@ public class Bar {
     // Venue address (from kadevecer JSON-LD) — used for the map in event details
     @Column(length = 512)
     private String address;
+    // Reservation phone number (tel: link on the venue's kadevecer page)
+    private String phone;
+    // Venue type ("Бар", "Клуб", "Кафана"...) — powers "similar events"
+    private String category;
+    private String city;
+    @Column(length = 512)
+    private String kadevecerUrl;
 }

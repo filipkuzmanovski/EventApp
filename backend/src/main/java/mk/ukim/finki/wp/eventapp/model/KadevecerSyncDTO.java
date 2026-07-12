@@ -16,6 +16,18 @@ import java.util.List;
 public class KadevecerSyncDTO {
     private List<EventDTO> events;
     private List<ArtistDTO> artists;
+    private List<VenueDTO> venues;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class VenueDTO {
+        private String name;
+        private String phone;
+        private String category;
+        private String city;
+        private String kadevecer_url;
+    }
 
     @Data
     @AllArgsConstructor

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PostDetail from "./PostDetail";
 import FilterBar from "./FilterBar";
-import EventDetailModal from "./EventDetailModal";
 import { cleanBarName } from "../utils";
 import styles from "./PostList.module.css"
 
@@ -42,10 +41,9 @@ function matchesDate(post, range) {
 }
 
 export default function PostList(props){
-    const { posts, selectedBar, onClearBar } = props;
+    const { posts, selectedBar, onClearBar, adminToken, onPostsChanged } = props;
     const [currentPage, setCurrentPage] = useState(1);
     const [dateRange, setDateRange] = useState("any");
-    const [detailPost, setDetailPost] = useState(null);
 
     // Whenever the list or a filter changes, jump back to page 1
     useEffect(() => {
@@ -110,7 +108,7 @@ export default function PostList(props){
                 className={styles.cardWrapper}
                 style={{ animationDelay: `${index * 0.07}s` }}
               >
-                <PostDetail post={post} onDetails={setDetailPost}></PostDetail>
+                <PostDetail post={post} adminToken={adminToken} onDeleted={onPostsChanged}></PostDetail>
               </div>
            ))}
          </div>
@@ -144,10 +142,6 @@ export default function PostList(props){
                Следна →
              </button>
            </div>
-         )}
-
-         {detailPost && (
-            <EventDetailModal post={detailPost} onClose={() => setDetailPost(null)} />
          )}
        </>
     )

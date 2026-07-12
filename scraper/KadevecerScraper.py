@@ -113,6 +113,7 @@ def parse_event(url):
         "image_url": images[0] if images else None,
         "event_date": start_date,
         "address": html.unescape(address) if address else None,
+        "client_url": (ld.get("organizer") or {}).get("url"),
         "artist_urls": [p.get("url") for p in performers if p.get("url")],
     }
 
@@ -173,6 +174,35 @@ def scrape_artist(url):
 
 
 # ============================================
+# STEP 4 — Scrape a venue (client) page
+# Phone for reservations + category for "similar events"
+# ============================================
+
+def scrape_venue(name, url):
+    response = polite_get(url)
+    page = response.text
+
+    # First tel: link is the venue's reservation number
+    tel = re.search(r'href="tel:([^"]+)"', page)
+
+    # Title format: "The Public | Бар in Струмица | Strumica Nightlife | ..."
+    title = re.search(r"<title>(.*?)</title>", page, re.DOTALL)
+    category, city = None, None
+    if title:
+        parts = [p.strip() for p in html.unescape(title.group(1)).split("|")]
+        if len(parts) >= 2 and " in " in parts[1]:
+            category, city = [s.strip() for s in parts[1].split(" in ", 1)]
+
+    return {
+        "name": name,
+        "phone": tel.group(1).strip() if tel else None,
+        "category": category,
+        "city": city,
+        "kadevecer_url": url,
+    }
+
+
+# ============================================
 # MAIN — scrape everything, keep upcoming events
 # ============================================
 
@@ -188,12 +218,17 @@ def parse_iso(value):
 def run_scraper():
     events = []
     artists_by_url = {}
+    client_urls = {}  # bar name -> client page URL
     now = datetime.now(timezone.utc)
 
     for url in discover_event_urls():
         event = parse_event(url)
         if not event:
             continue
+
+        client_url = event.pop("client_url")
+        if event["bar"] and client_url and event["bar"] not in client_urls:
+            client_urls[event["bar"]] = client_url
 
         # Keep only upcoming events (or ones with no parseable date)
         starts = parse_iso(event["event_date"])
@@ -219,15 +254,22 @@ def run_scraper():
         events.append(event)
         print(f"   ✅ {event['bar']}: {event['caption'][:60]}...")
 
-    return events, [a for a in artists_by_url.values() if a]
+    # Scrape each venue's page once (phone, category, city)
+    venues = []
+    for name, url in client_urls.items():
+        venue = scrape_venue(name, url)
+        venues.append(venue)
+        print(f"   🏠 Venue: {name} | {venue['category'] or '?'} | {venue['phone'] or 'no phone'}")
+
+    return events, [a for a in artists_by_url.values() if a], venues
 
 
 if __name__ == "__main__":
     print("🌃 Kadevecer scraper starting...\n")
-    events, artists = run_scraper()
-    print(f"\n✅ Done! {len(events)} upcoming events, {len(artists)} artists.")
+    events, artists, venues = run_scraper()
+    print(f"\n✅ Done! {len(events)} upcoming events, {len(artists)} artists, {len(venues)} venues.")
 
-    payload = {"events": events, "artists": artists}
+    payload = {"events": events, "artists": artists, "venues": venues}
     with open("kadevecer_data.json", "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
     print("💾 Saved to kadevecer_data.json")

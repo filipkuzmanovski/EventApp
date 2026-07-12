@@ -51,12 +51,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getScrapedData() {
-        return postRepository.findAll();
+        return postRepository.findAllWithDetails();
     }
 
     @Override
     public List<Post> getScrapedDataByBarName(String barName) {
-        return postRepository.findAllByBar_NameContainingIgnoreCase(barName);
+        return postRepository.findAllByBarNameWithDetails(barName);
     }
 
     @Override
@@ -122,6 +122,22 @@ public class PostServiceImpl implements PostService {
                 postRepository.save(post);
             }
         }
+
+        // 3. Upsert venue details (phone, category, city) onto bars
+        if (syncDTO.getVenues() != null) {
+            for (KadevecerSyncDTO.VenueDTO dto : syncDTO.getVenues()) {
+                Bar bar = barRepository.findByName(dto.getName());
+                if (bar == null) {
+                    bar = new Bar();
+                    bar.setName(dto.getName());
+                }
+                if (dto.getPhone() != null) bar.setPhone(dto.getPhone());
+                if (dto.getCategory() != null) bar.setCategory(dto.getCategory());
+                if (dto.getCity() != null) bar.setCity(dto.getCity());
+                if (dto.getKadevecer_url() != null) bar.setKadevecerUrl(dto.getKadevecer_url());
+                barRepository.save(bar);
+            }
+        }
     }
 
     private OffsetDateTime parseDate(String value) {
@@ -138,6 +154,21 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Artist> getArtists() {
         return artistRepository.findAll();
+    }
+
+    @Override
+    public java.util.Optional<Post> getEventById(Long id) {
+        return postRepository.findByIdWithDetails(id);
+    }
+
+    @Override
+    public boolean deleteEvent(Long id) {
+        if (!postRepository.existsById(id)) {
+            return false;
+        }
+        // Removing the post also clears its posts_artists join rows
+        postRepository.deleteById(id);
+        return true;
     }
 
     @Override

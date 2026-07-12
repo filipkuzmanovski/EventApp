@@ -40,6 +40,13 @@ public class PostsController {
         return postService.getScrapedDataByBarName(barName);
     }
 
+    @GetMapping("/events/{id}")
+    public ResponseEntity<Post> getEventById(@PathVariable Long id) {
+        return postService.getEventById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/kadevecer/sync")
     public void syncKadevecer(@RequestBody KadevecerSyncDTO syncDTO) {
         postService.processKadevecerSync(syncDTO);
@@ -58,5 +65,17 @@ public class PostsController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         return ResponseEntity.ok(postService.createManualEvent(eventDTO));
+    }
+
+    @DeleteMapping("/admin/events/{id}")
+    public ResponseEntity<Void> deleteEvent(
+            @RequestHeader(value = "X-Admin-Token", required = false) String token,
+            @PathVariable Long id) {
+        if (adminToken == null || adminToken.isBlank() || !adminToken.equals(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        return postService.deleteEvent(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }
